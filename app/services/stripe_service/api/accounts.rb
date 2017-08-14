@@ -11,6 +11,7 @@ module StripeService::API
       data = body.merge(stripe_seller_id: result.id, community_id: community_id, person_id: person_id)
       Result::Success.new(accounts_store.create(opts: data))
     rescue => e
+raise e
       Result::Error.new(e.message)
     end
 
@@ -20,6 +21,7 @@ module StripeService::API
       data = body.merge(stripe_bank_id: result.id)
       Result::Success.new(accounts_store.update_bank_account(community_id: community_id, person_id: person_id, opts: data))
     rescue => e
+raise e
       Result::Error.new(e.message)
     end
 
@@ -27,6 +29,7 @@ module StripeService::API
       data = { community_id: community_id, person_id: person_id}
       Result::Success.new(accounts_store.create_customer(opts: data))
     rescue => e
+raise e
       Result::Error.new(e.message)
     end
 
@@ -34,14 +37,16 @@ module StripeService::API
       data = { community_id: community_id, person_id: person_id}
       account = accounts_store.get(person_id: person_id, community_id: community_id).to_hash
       stripe_api.update_address(community: community_id, account_id: account[:stripe_seller_id], address: body)
-      Result::Success.new(accounts_store.update_address(community_id: community_id, person_id: person_id, opts: body))
+      Result::Success.new(account)
     rescue => e
+raise e
       Result::Error.new(e.message)
     end
 
     def update_field(community_id:, person_id:, field:, value:)
       Result::Success.new(accounts_store.update_field(community_id: community_id, person_id: person_id, field: field, value: value))
     rescue => e
+raise e
       Result::Error.new(e.message)
     end
 
@@ -50,6 +55,7 @@ module StripeService::API
       stripe_api.send_verification(community: community_id, account_id: account[:stripe_seller_id], personal_id_number: personal_id_number, file_path: file)
       Result::Success.new(account)
     rescue => e
+raise e
       Result::Error.new(e.message)
     end
 

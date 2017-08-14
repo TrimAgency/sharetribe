@@ -433,8 +433,9 @@ production: &production_settings
   <<: *default_settings
 
   eager_load: true
-
   log_level: INFO
+  domain: 'trim-sharetribe.herokuapp.com'
+  secret_key_base: 13bf691ef2da0970c421ccc5e1b4decb91ba75d5591d992f3b021bdea28f0b967c9bdaef188598b8315f368b397ae57dd574c93f44ccb4c75920ff1892ce696a
 
 staging:
   <<: *production_settings
